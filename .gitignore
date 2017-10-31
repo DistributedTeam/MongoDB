@@ -1,0 +1,26 @@
+# IntelliJ
+.idea/
+
+# gradle
+.gradle
+
+# project data file
+database-data/*
+!database-data/.gitkeep
+project-files/*
+!project-files/.gitkeep
+test-data/database-data/*
+!test-data/database-data/.gitkeep
+test-data/project-files/data-files/temp/*
+!test-data/project-files/data-files/temp/.gitkeep
+experiment_log/*
+!experiment_log/.gitkeep
+local.properties
+
+build/
+/massage/build/
+/impoprtData/build/
+/client/build/
+/import/cassandraCqlSh/**/*.pyc
+.project
+/bin/
