@@ -1,0 +1,10 @@
+language: java
+sudo: required
+services:
+  - mongodb
+before_script:
+  - sleep 15 # wait for mongodb to set up
+script:
+  - ./gradlew check
+after_success:
+  - ./gradlew coveralls --continue

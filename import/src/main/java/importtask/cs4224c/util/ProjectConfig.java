@@ -15,7 +15,7 @@ public class ProjectConfig {
 
     private static final String MONGODB_IP = "mongodb.ip";
     private static final String MONGODB_DB = "mongodb.db";
-    private static final String DATA_CSV_FOLDER = "data.csv.folder";
+    private static final String DATA_JSON_FOLDER = "data.json.folder";
 
     private static ProjectConfig instance;
 
@@ -67,8 +67,8 @@ public class ProjectConfig {
 
     public String getMongodbDb() { return configuration.getString(MONGODB_DB); }
 
-    public String getDataCsvFolder() {
-        return configuration.getString(DATA_CSV_FOLDER);
+    public String getDataJsonFolder() {
+        return configuration.getString(DATA_JSON_FOLDER);
     }
 
 }
