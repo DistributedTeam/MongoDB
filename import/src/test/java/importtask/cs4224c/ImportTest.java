@@ -1,13 +1,23 @@
 package importtask.cs4224c;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import importtask.cs4224c.task.DropCollectionTask;
 import importtask.cs4224c.task.ImportDataTask;
+import importtask.cs4224c.util.Collection;
+import importtask.cs4224c.util.CollectionPool;
 import importtask.cs4224c.util.Constant;
 import importtask.cs4224c.util.ProjectConfig;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.FileReader;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 public class ImportTest {
 
@@ -37,14 +47,17 @@ public class ImportTest {
     private void validateDatabase() throws Exception {
         logger.info("Verifying collection size in DB");
 
-        validateCollection("customer.csv");
-        validateCollection("customer_partial.csv");
-        validateCollection("customer_stats.csv");
-        validateCollection("order_by_o_id.csv");
+        validateCollection("customer.json", Collection.Customer);
+        validateCollection("district.json", Collection.District);
+        validateCollection("stock.json", Collection.Stock);
+        validateCollection("orderItem.json", Collection.OrderItem);
     }
 
-    public void validateCollection(String tableFile) throws Exception {
-
+    public void validateCollection(String collectionFile, Collection collection) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map[] collections = objectMapper.readValue(Paths.get(config.getProjectRoot(), config.getDataJsonFolder(), collectionFile).toFile(), Map[].class);
+        // only validate number of records
+        Assert.assertEquals(collections.length, CollectionPool.getInstance().getCollection(collection).count());
     }
 
 }

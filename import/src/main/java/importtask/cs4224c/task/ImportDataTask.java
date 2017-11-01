@@ -35,11 +35,12 @@ public class ImportDataTask implements Runnable {
         }
         logger.info("importData instructions {}", importInstructions);
 
-        String importInstructionsResolved = importInstructions.replace("_DATA_CSV_FOLDER_",
-                Paths.get(config.getProjectRoot(), config.getDataCsvFolder()).toString() + File.separator);
+        String importInstructionsResolved = importInstructions.replace("_DATA_JSON_FOLDER_",
+                Paths.get(config.getProjectRoot(), config.getDataJsonFolder()).toString() + File.separator);
+        importInstructionsResolved = importInstructionsResolved.replaceAll("\n", ""); // without line breaker
 
         for (String instruction : importInstructionsResolved.split(Constant.STATEMENT_DECIMETER)) {
-            logger.info("Import instruction: {}", instruction);
+            logger.info("Import instruction:{}", instruction);
 
             String[] instructionArray = instruction.split(Constant.COLLECTION_SEPARATOR);
 
@@ -48,7 +49,6 @@ public class ImportDataTask implements Runnable {
 
             String[] cmd = new String[] {
                     getMongoImportFile(),
-                    "--quiet",
                     "--host",
                     config.getMongodbIp(),
                     "--db",
@@ -72,8 +72,7 @@ public class ImportDataTask implements Runnable {
                 String error = IOUtils.toString(process.getErrorStream());
 
                 if (StringUtils.isNotEmpty(error)) {
-                    logger.warn("Notice that there are errors during importing data. " +
-                            "Please check whether they are outstanding or not: {}", error);
+                    logger.warn("Output from mongoimport (can ignore if it doesn't cause problems)\n {}", error);
                 }
             } catch (Exception e) {
                 logger.error("Cannot execute command and get result {}", e);
@@ -90,9 +89,13 @@ public class ImportDataTask implements Runnable {
             logger.error("Unsupported OS");
             throw new RuntimeException();
         }
-        if (OS.startsWith("Mac") || OS.startsWith("Linux")) {
-            logger.info("Current OS is {}, use mongoimport", OS);
-            return Paths.get(System.getProperty("user.dir"), "mongoshell", "mongoimport").toString();
+        if (OS.startsWith("Mac")) {
+            logger.info("Current OS is {}, use mongoimportmac", OS);
+            return Paths.get(System.getProperty("user.dir"), "mongoshell", "mongoimportmac").toString();
+        }
+        if (OS.startsWith("Linux")) {
+            logger.info("Current OS is {}, use mongoimportlinux", OS);
+            return Paths.get(System.getProperty("user.dir"), "mongoshell", "mongoimportlinux").toString();
         }
         if (OS.startsWith("Windows")) {
             logger.info("Current OS is {}, use mongoimport.exe", OS);
