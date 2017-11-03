@@ -1,6 +1,5 @@
 package importtask.cs4224c;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import importtask.cs4224c.task.DropCollectionTask;
 import importtask.cs4224c.task.ImportDataTask;
@@ -14,9 +13,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileReader;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 
 public class ImportTest {

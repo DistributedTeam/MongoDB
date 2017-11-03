@@ -9,13 +9,10 @@ import massage.cs4224c.util.ProjectConfig;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StockCollection extends AbstractConverter {

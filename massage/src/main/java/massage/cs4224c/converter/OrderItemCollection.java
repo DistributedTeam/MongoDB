@@ -143,6 +143,7 @@ public class OrderItemCollection extends AbstractConverter {
 
                 CSVRecord currItem = items.get(correspondingOrderline.get(OL_I_ID));
                 orderItemOrderLinesDocument.setI_name(currItem.get(I_NAME));
+                orderItemOrderLinesDocument.setOl_i_id(Integer.parseInt(correspondingOrderline.get(OL_I_ID)));
 
                 orderItemDocument.getOrderlines().add(orderItemOrderLinesDocument);
             }
