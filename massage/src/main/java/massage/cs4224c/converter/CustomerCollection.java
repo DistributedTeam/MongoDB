@@ -132,7 +132,7 @@ public class CustomerCollection extends AbstractConverter {
             customerDocument.setC_delivery_cnt(Integer.parseInt(customer.get(C_DELIVERY_CNT)));
 
             customerDocument.setC_w_name(warehouses.get(customer.get(C_W_ID)).get(W_NAME));
-            customerDocument.setC_w_name(districts.get(new ImmutablePair<String, String>(customer.get(C_W_ID), customer.get(C_D_ID))).get(W_NAME));
+            customerDocument.setC_d_name(districts.get(new ImmutablePair<String, String>(customer.get(C_W_ID), customer.get(C_D_ID))).get(D_NAME));
 
             jGenerator.writeObject(customerDocument);
         }

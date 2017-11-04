@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import massage.cs4224c.document.District;
 import massage.cs4224c.util.ProjectConfig;
 import org.apache.commons.csv.CSVFormat;
@@ -12,14 +11,10 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DistrictCollection extends AbstractConverter {

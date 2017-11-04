@@ -11,11 +11,11 @@
         </layout>
     </appender>
 
-    <logger name="importtask.cs4224c" level="INFO" additivity="false">
+    <logger name="importtask.cs4224c" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.mongodb.driver" level="INFO" additivity="false">
+    <logger name="org.mongodb.driver" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 

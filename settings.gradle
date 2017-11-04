@@ -1,4 +1,5 @@
 rootProject.name = 'mongodb'
 include 'massage'
 include 'import'
+include 'client'
 
