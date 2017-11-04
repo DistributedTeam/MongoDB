@@ -6,3 +6,15 @@
 	 ITEM_NUMBER: 14, I_NAME: zgtysykztihnn, SUPPLIER_WAREHOUSE: 10, QUANTITY: 68, OL_AMOUNT: 3567.28, S_QUANTITY: 10
 	 ITEM_NUMBER: 283, I_NAME: hqckzdrkmlwdiwc, SUPPLIER_WAREHOUSE: 7, QUANTITY: 40, OL_AMOUNT: 3896.00, S_QUANTITY: 107
 	 ITEM_NUMBER: 312, I_NAME: ujljrftzxaqwgxvq, SUPPLIER_WAREHOUSE: 12, QUANTITY: 10, OL_AMOUNT: 862.50, S_QUANTITY: 69
+
+1. Name: (qnnyortwnywjk, OE, PRESOUGHTOUGHT), Balance: 20.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+2. Name: (eqairlfrzgiehki, OE, CALLYABLEEING), Balance: 19.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+3. Name: (rbygrmwteiqwdw, OE, EINGPRIATION), Balance: 18.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+4. Name: (rhpnjmgbr, OE, ANTIANTIESE), Balance: 17.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+5. Name: (uoaqdegrormt, OE, ATIONABLEATION), Balance: 16.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+6. Name: (lzgyokm, OE, ESEPRIABLE), Balance: 15.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+7. Name: (jjapaseptd, OE, ATIONATIONATION), Balance: 14.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+8. Name: (kjoiuiybgj, OE, ABLEANTIPRI), Balance: 13.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+9. Name: (sfkcbibelgk, OE, EINGPRESABLE), Balance: 12.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+10. Name: (giyuvyqzgn, OE, OUGHTBARBAR), Balance: 11.0000, Warehouse Name: sxvnjh, District Name: jrtpsy
+
