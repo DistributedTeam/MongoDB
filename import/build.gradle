@@ -20,7 +20,7 @@ task importData(type: JavaExec) {
 }
 importData.mustRunAfter dropCollection
 
-task all(type: JavaExec) {}
+task all() {}
 all.dependsOn dropCollection, importData
 
 test {

@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Projections;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,13 @@ public class CollectionPool {
 
     private CollectionPool() {
         try {
-            MongoClientURI connectionString = new MongoClientURI("mongodb://" + ProjectConfig.getInstance().getMongodbIp());
+            MongoClientURI connectionString = new MongoClientURI(
+                    String.format("mongodb://%s/?readPreference=%s&readConcernLevel=%s&w=%s",
+                            ProjectConfig.getInstance().getMongodbIp(),
+                            ProjectConfig.getInstance().getMongodbReadPref(),
+                            ProjectConfig.getInstance().getMongodbReadConcern(),
+                            ProjectConfig.getInstance().getMongodbWriteConcern())
+            );
             MongoClient mongoClient = new MongoClient(connectionString);
             database = mongoClient.getDatabase(ProjectConfig.getInstance().getMongodbDb());
         } catch (Exception e) {
