@@ -82,21 +82,37 @@ public class DeliveryTransaction extends AbstractTransaction{
         }
 
         // bulk write for less I/O
+        StringBuilder errStr = new StringBuilder();
         try {
-            collectionPool.getCollection(Collection.OrderItem).bulkWrite(bulkWritesOrderItem, new BulkWriteOptions().ordered(false));
-            collectionPool.getCollection(Collection.Customer).bulkWrite(bulkWritesCustomer, new BulkWriteOptions().ordered(false));
+            if (bulkWritesOrderItem.size() > 0) {
+                collectionPool.getCollection(Collection.OrderItem).bulkWrite(bulkWritesOrderItem, new BulkWriteOptions().ordered(false));
+            }
         } catch (BulkWriteException e) {
-            String errStr = "";
             if (e.getWriteConcernError() != null) {
-                errStr = e.getWriteConcernError().getMessage();
+                errStr.append(e.getWriteConcernError().getMessage());
             } else {
-                for (BulkWriteError writeError : e.getWriteErrors())
-                {
-                    errStr += writeError.getMessage();
+                for (BulkWriteError writeError : e.getWriteErrors()) {
+                    errStr.append(writeError.getMessage());
                 }
             }
-            if (!errStr.isEmpty())
-                logger.error("Transaction {} gets error, {}", this.getClass().getSimpleName(), errStr);
+        }
+
+        try {
+            if (bulkWritesCustomer.size() > 0) {
+                collectionPool.getCollection(Collection.Customer).bulkWrite(bulkWritesCustomer, new BulkWriteOptions().ordered(false));
+            }
+        } catch (BulkWriteException e) {
+            if (e.getWriteConcernError() != null) {
+                errStr.append(e.getWriteConcernError().getMessage());
+            } else {
+                for (BulkWriteError writeError : e.getWriteErrors()) {
+                    errStr.append(writeError.getMessage());
+                }
+            }
+        }
+
+        if (errStr.length() > 0) {
+            throw new RuntimeException(errStr.toString());
         }
     }
 }

@@ -46,6 +46,6 @@ public class Client {
         System.err.println("\n[SUMMARY]");
         System.err.println("Number of executed transactions: " + numOfTransaction);
         System.err.println("Total transaction execution time (seconds): " + stopWatch.getTime() / 1000.0);
-        System.err.println("Transaction throughput: " + stopWatch.getTime() / 1000.0 / numOfTransaction);
+        System.err.println("Transaction throughput: " + numOfTransaction / stopWatch.getTime() / 1000.0);
     }
 }
