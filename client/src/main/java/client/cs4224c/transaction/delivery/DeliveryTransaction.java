@@ -4,10 +4,9 @@ import client.cs4224c.transaction.AbstractTransaction;
 import client.cs4224c.transaction.delivery.data.DeliveryTransactionData;
 import client.cs4224c.util.Collection;
 import client.cs4224c.util.CollectionPool;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Projections;
-import com.mongodb.client.model.UpdateOneModel;
-import com.mongodb.client.model.WriteModel;
+import com.mongodb.BulkWriteError;
+import com.mongodb.BulkWriteException;
+import com.mongodb.client.model.*;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +82,21 @@ public class DeliveryTransaction extends AbstractTransaction{
         }
 
         // bulk write for less I/O
-        collectionPool.getCollection(Collection.OrderItem).bulkWrite(bulkWritesOrderItem);
-        collectionPool.getCollection(Collection.Customer).bulkWrite(bulkWritesCustomer);
+        try {
+            collectionPool.getCollection(Collection.OrderItem).bulkWrite(bulkWritesOrderItem, new BulkWriteOptions().ordered(false));
+            collectionPool.getCollection(Collection.Customer).bulkWrite(bulkWritesCustomer, new BulkWriteOptions().ordered(false));
+        } catch (BulkWriteException e) {
+            String errStr = "";
+            if (e.getWriteConcernError() != null) {
+                errStr = e.getWriteConcernError().getMessage();
+            } else {
+                for (BulkWriteError writeError : e.getWriteErrors())
+                {
+                    errStr += writeError.getMessage();
+                }
+            }
+            if (!errStr.isEmpty())
+                logger.error("Transaction {} gets error, {}", this.getClass().getSimpleName(), errStr);
+        }
     }
 }
