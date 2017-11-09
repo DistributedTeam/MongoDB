@@ -30,6 +30,7 @@ public class DeliveryTransaction extends AbstractTransaction{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void executeFlow() {
         CollectionPool collectionPool = CollectionPool.getInstance();
 
