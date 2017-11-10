@@ -16,6 +16,9 @@ public class ProjectConfig {
 
     private static final String MONGODB_IP = "mongodb.ip";
     private static final String MONGODB_DB = "mongodb.db";
+    private static final String MONGODB_READ_PREF = "mongodb.read.pref";
+    private static final String MONGODB_READ_CONCERN = "mongodb.read.concern";
+    private static final String MONGODB_WRITE_CONCERN = "mongodb.write.concern";
     private static final String TRANSACTION_FILE_FOLDER = "transaction.file.folder";
 
     private static ProjectConfig instance;
@@ -77,4 +80,16 @@ public class ProjectConfig {
     }
 
     public String getMongodbDb() { return configuration.getString(MONGODB_DB); }
+
+    public String getMongodbReadPref() {
+        return configuration.getString(MONGODB_READ_PREF);
+    }
+
+    public String getMongodbReadConcern() {
+        return configuration.getString(MONGODB_READ_CONCERN);
+    }
+
+    public String getMongodbWriteConcern() {
+        return configuration.getString(MONGODB_WRITE_CONCERN);
+    }
 }

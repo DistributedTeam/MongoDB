@@ -5,6 +5,7 @@ import client.cs4224c.parser.ParserMap;
 import client.cs4224c.transaction.AbstractTransaction;
 import client.cs4224c.util.Constant;
 import client.cs4224c.util.ProjectConfig;
+import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,10 @@ public class ExperimentClient {
                 args[0]));
 
         int numOfTransaction = 0;
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        stopWatch.suspend();
 
-        long beginTime = System.currentTimeMillis();
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] arguments = line.split(Constant.COMMA_SEPARATOR);
@@ -49,16 +52,17 @@ public class ExperimentClient {
             AbstractParser parser = parserClass.newInstance();
             AbstractTransaction transaction = parser.parse(sc, arguments);
 
-            transaction.execute();
             numOfTransaction++;
+            stopWatch.resume();
+            transaction.execute();
+            stopWatch.suspend();
+            System.out.println();
         }
         long endTime = System.currentTimeMillis();
 
-        double executionTimeInSecond = (endTime - beginTime) / 1000.0;
-
         System.err.println("\n[SUMMARY]");
         System.err.println("Number of executed transactions: " + numOfTransaction);
-        System.err.println("Total transaction execution time (seconds): " + executionTimeInSecond);
-        System.err.println("Transaction throughput: " + executionTimeInSecond / numOfTransaction);
+        System.err.println("Total transaction execution time (seconds): " + stopWatch.getTime() / 1000.0);
+        System.err.println("Transaction throughput: " + numOfTransaction / (stopWatch.getTime() / 1000.0));
     }
 }

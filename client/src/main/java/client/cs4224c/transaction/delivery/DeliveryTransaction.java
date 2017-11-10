@@ -4,10 +4,9 @@ import client.cs4224c.transaction.AbstractTransaction;
 import client.cs4224c.transaction.delivery.data.DeliveryTransactionData;
 import client.cs4224c.util.Collection;
 import client.cs4224c.util.CollectionPool;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Projections;
-import com.mongodb.client.model.UpdateOneModel;
-import com.mongodb.client.model.WriteModel;
+import com.mongodb.BulkWriteError;
+import com.mongodb.BulkWriteException;
+import com.mongodb.client.model.*;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +30,7 @@ public class DeliveryTransaction extends AbstractTransaction{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void executeFlow() {
         CollectionPool collectionPool = CollectionPool.getInstance();
 
@@ -83,7 +83,37 @@ public class DeliveryTransaction extends AbstractTransaction{
         }
 
         // bulk write for less I/O
-        collectionPool.getCollection(Collection.OrderItem).bulkWrite(bulkWritesOrderItem);
-        collectionPool.getCollection(Collection.Customer).bulkWrite(bulkWritesCustomer);
+        StringBuilder errStr = new StringBuilder();
+        try {
+            if (bulkWritesOrderItem.size() > 0) {
+                collectionPool.getCollection(Collection.OrderItem).bulkWrite(bulkWritesOrderItem, new BulkWriteOptions().ordered(false));
+            }
+        } catch (BulkWriteException e) {
+            if (e.getWriteConcernError() != null) {
+                errStr.append(e.getWriteConcernError().getMessage());
+            } else {
+                for (BulkWriteError writeError : e.getWriteErrors()) {
+                    errStr.append(writeError.getMessage());
+                }
+            }
+        }
+
+        try {
+            if (bulkWritesCustomer.size() > 0) {
+                collectionPool.getCollection(Collection.Customer).bulkWrite(bulkWritesCustomer, new BulkWriteOptions().ordered(false));
+            }
+        } catch (BulkWriteException e) {
+            if (e.getWriteConcernError() != null) {
+                errStr.append(e.getWriteConcernError().getMessage());
+            } else {
+                for (BulkWriteError writeError : e.getWriteErrors()) {
+                    errStr.append(writeError.getMessage());
+                }
+            }
+        }
+
+        if (errStr.length() > 0) {
+            throw new RuntimeException(errStr.toString());
+        }
     }
 }

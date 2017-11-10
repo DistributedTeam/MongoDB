@@ -18,10 +18,17 @@ task importData(type: JavaExec) {
     main = "importtask.cs4224c.task.ImportDataTask"
     classpath = sourceSets.main.runtimeClasspath
 }
-importData.mustRunAfter dropCollection
 
-task all(type: JavaExec) {}
-all.dependsOn dropCollection, importData
+task createIndex(type: JavaExec) {
+    main = "importtask.cs4224c.task.CreateIndexTask"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+importData.mustRunAfter dropCollection
+createIndex.mustRunAfter importData
+
+task all() {}
+all.dependsOn dropCollection, importData, createIndex
 
 test {
     testLogging.showStandardStreams = true
