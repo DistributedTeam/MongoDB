@@ -22,6 +22,7 @@ In the following sections, this script is referred to generally as `gradlew`.
 ### Prerequisite
 - [MongoDB](https://www.mongodb.com/download-center)
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and above
+- RAM memory of 2GB and above
 
 For Windows users, ensure that paths to Java 8 are correctly added to `System Properties` > `Advanced` > `Environment Variables` > `PATH`.
 
