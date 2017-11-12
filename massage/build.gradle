@@ -5,6 +5,8 @@ apply plugin: 'java'
 apply plugin:'application'
 mainClassName = "massage.cs4224c.Massage" // run task will trigger the main method
 
+applicationDefaultJvmArgs = ["-XX:-UseGCOverheadLimit", "-Xmx8192m"]
+
 sourceCompatibility = 1.8
 
 repositories {
