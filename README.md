@@ -32,6 +32,65 @@ Unzip the data files and put folders `data-files` and `xact-files` and the csv f
 
 Run command `gradlew massage:run` at project root.
 
+### Configure Node
+As specified by project requirement, data should be distributed across all 5 cluster nodes using horizontal partition, with a replication factor of 3.
+
+![](docs/mongo_sharding.JPG)
+
+As shardings (data partition) in MongoDB are distributed based on communication between `mongos` and config servers, as shown in the figure above, data will go to corresponding `mongod` (replica set) in each shard  
+
+Distributing data across all 5 nodes can be easily achieved since 5 physical machines are available. `mongos` can be deployed on each machine, which will take care of the routing of data to the 5 physical machines.
+
+However, as data that go to each shard should only have 2 addition copies in other machines and data replication level in MongoDB is in database level, single instance of `mongod` in each machine is not sufficient. Having a larger number of physical machines would be another possible solution.  
+ 
+###### WIP
+
+A resolution is deviced to ensure that the requirement on replication is achieved, shown in the diagram below.
+
+![](docs/node_structure.png)
+
+In the sharding configuration, each physical node owns 3 `mongod` instance, forming `shard1`, `shard2` ... `shard5` replica sets. This ensures that data going to each shard is stored in 3 physical machines. Config server has a replica factor of 3 as well, the `mongod` instances for config server replica set are randomly chosen across all physical nodes.
+
+![](docs/routing.png)
+
+Routing is then done based on shard keys.
+
+To simplify the tedious procedure of manually setting up configurations of all nodes, a program is written to automate the process.
+
+To configure the program, edit `project.properties` in folder `nodesetup` at project root.
+
+Note that running the setup will bring down all the `mongod` and `mongos` instances by shell command `pkill 'mongod' && pkill 'mongos'`. 
+
+``` bash
+# Set server IP addresses to be the ones used for experiment. Exactly 5 working IP addresses are required in order for the above mentioned setup to work
+server.ips = 192.168.48.229, 192.168.48.230, 192.168.48.231, 192.168.48.232, 192.168.48.233
+
+# Fill up the correct SSH user and password for the node
+ssh.user = cs4224c
+ssh.password = 
+
+# Determine the location where mongodb is placed. It is by default that any previous content under this folder will be overwritten whenever the NodeSetup is run
+base.folder.overwrite = true
+base.folder = /temp/mongodb
+
+# The db should be the same db used to import or the sharding won't take effect. shard.collection should not be modified.
+shard.db = cs4224c
+shard.collections = customer, district, orderItem, stock
+
+# Set the option to be true only when read concern in client configuration is set to majority
+mongodb.enable.majority.read.concern = false
+```
+
+Run `gradlew nodesetup:run` at project root.
+
+A set of output will be shown to signal the success or failure of node setup. When the setup finishes successfully, logging information below will be shown.
+
+> NodeSetup complete! You may start to import now. DB are available through port 27017 in the servers
+
+In case of error, please double check on the node IP addresses and user credentials. 
+
+Note that the setup can fail due to poor network conditions, please re-run the command in this case.  
+
 ### Import Data To Project
 
 Make sure `gradlew massage:run` command is executed successfully before this step.
@@ -44,9 +103,16 @@ If more than one node is involved, the IP address could be from any one of the n
 
 Run command `gradlew import:all` at project root.
 
-This command performs `import:dropCollection` and `import:importData` sequentially. 
+This command performs `import:clearCollection`, `import:importData` and `import:createIndex` sequentially. 
 
-### Configure Clients
+### Run Experiments
+
+To change read and write concern of clients, edit `mongod.read.concern` and `mongod.write.concern` in file `project.properties` under folder `client` at project root accordingly.
+
+Note that `mongodb.ip` is purposely left blank as it will be overwritten by the ip addresses in file `start-experiment` mentioned below.
+
+Note that if `mongod.read.concern` is set to majority, please ensure that `mongodb.enable.majority.read.concern` in file `project.properties` under folder `nodesetup` at project is changed to true and the nodeSetup is re-run under the configuration.
+
 The file `start-experiment` at project root includes configuration of clients.
 
 The default IP addresses of the nodes are those of nodes allocated to our group. 
@@ -60,94 +126,34 @@ To change the number of clients, modify the upper range of loop variable `i`.
 Example:
 
 Changing the code from
-    
-    for i in {1..10}
+
+```
+for i in {1..10}
+```
+
 to
-    
-    for i in {1..20}
+
+``` 
+for i in {1..20}
+```
+
 will increase the number of clients from 10 to 20.
 
-It is suggested that the upper range of loop variable `i` in file `stop-experiment` at project root is changed to the same value as in `start-experiment` to ensure consistency and success in termination of clients.
+It is suggested that the upper range of loop variable `i` in file `stop-experiment` at project root is changed to the same value as in `start-experiment` to ensure consistency and success in premature termination of clients.
+
+When experiment is done, log files will be stored in folder `experiement_log` at project root, including output from client, error logs and statistics such as number of transaction completed and throughput etc.
+
+### Check Database State
+
+Add a working IP address from any of the 5 nodes to `mongodb.ip` in file `project.properties` under folder `client`. 
+
+To output database state, run command `gradlew client:run -q` at project root and type `DATABASE` to view the result. Note that you may enter any query from the command prompt / terminal specified by in the project. Results of these queries will be output to the screen.
+
+To exit the client, press `Ctrl + D` (EOF signal) and the statistics of database will be displayed.
+
+**Note:** If read and write concern is set to majority, you need to change `mongodb.read.concern` to `local` and `mongodb.write.concern` to `1` as MongoDB mapReduce does not support majority read and write concern. 
+
   
-### Run Clients
-To run clients, run file `start-experiment` at project root.
-
-Results from each client is stored in folder `experiment_log` at project root.
-
-To prematurely terminate all clients, run file `stop-experiment` at project root.
-
-Note that there is no output on command prompt / terminal when clients are run, as specified by requirement of the project. 
-
-However, you may enter any query from the command prompt / terminal shown below. Results of these queries will be output to the screen.
-
-### Available Queries
-
-**New Transaction: `N`**
-
-Format
-
-    N, W_ID, D_ID, C_ID, NUM_ITEMS
-	ITEM_NUMBER[i], SUPPLIER_WAREHOUSE[i], QUANTITY[i]
-> Process a new transaction from a custormer.
-> 
-> Note that 1 <= NUM_ITEMS <= 20, i ∈ [1,NUM ITEMS]
-
-Examples:
-
-    N,347,7,7,3
-    14,10,68
-    283,7,40
-    312,12,10
-
-
-**Payment Transaction: `P`**
-
-Format
-
-    P, W_ID, D_ID, C_ID, PAYMENT
-
-> Process a payment made by a customer.
-
-**Delivery Transaction: `D`**
-
-Format
-
-    D, W_ID, CARRIER_ID
-
-> Process the delivery of the oldest yet-to-be-delivered order for each of the 10
-districts in a specified warehouse.   
-
-**Order-Status Transaction: `O`**
-
-Format
-
-    O, W_ID, D_ID, C_ID
-
-> Query the status of the last order of a customer
-
-**Stock-level Transaction: `S`**
-
-Format
-    S, W_ID, D_ID, T, L
-
-> Examine the items from the last L orders at a specified warehouse district and reports the number of those items that have a stock level below a specified threshold.
-
-**Popular-Item Transaction: `I`**
-
-Format
-
-    I, W_ID, D_ID, L
-
-> Find the most popular item(s) in each of the last L orders at a specified warehouse district. 
-> Given two items X and Y in the same order O, X is defined to be more popular than Y in O if the quantity ordered for X in O is greater than the quantity ordered for Y in O.
-
-**Top-Balance Transaction: `T`**
-
-Format
-
-     T     
-> Find the top 10 customers ranked in descending order of their outstanding balance payments.
-
 ### Verification
 
 To verify that the project is correctly set up, refer to [`test.md`](test.md) at project root for more details.
