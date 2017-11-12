@@ -20,6 +20,6 @@ public class CreateIndexTask implements Runnable {
     @Override
     public void run() {
         logger.info("Create index on customer balance.");
-        CollectionPool.getInstance().getCollection(Collection.Customer).createIndex(Indexes.descending("balance"));
+        CollectionPool.getInstance().getCollection(Collection.Customer).createIndex(Indexes.descending("c_balance"));
     }
 }
