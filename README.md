@@ -41,15 +41,22 @@ As shardings (data partition) in MongoDB are distributed based on communication 
 
 Distributing data across all 5 nodes can be easily achieved since 5 physical machines are available. `mongos` can be deployed on each machine, which will take care of the routing of data to the 5 physical machines.
 
-However, as data that go to each shard should only have 2 addition copies in other machines and data replication level in MongoDB is in database level, single instance of `mongod` in each machine is not sufficient. Having a larger number of physical machines would be another possible solution.  
- 
-###### WIP
 
-A resolution is deviced to ensure that the requirement on replication is achieved, shown in the diagram below.
+However, as data that go to each shard should have 2 additional copies in other machines and data replication level in MongoDB is in database level, single instance of `mongod` in each machine is not sufficient. 
+
+![](docs/single_instance.png)
+
+In the case of using single instance of `mongod` without replication, data is stored in each physical node as a unique shard. 
+
+![](docs/naive_replica_implementation.png)
+
+However, as shown in the naive implementation above, using replica sets with 3 replications allows data in shard1, shard2 and shard3 replicate each other and have 2 additional copies each. Under this situation, there is no way data in shard4 and shard5 can have 3 copies of their data distributed across 3 different physical nodes, given the assumption that data should be evenly distributed.  
+ 
+A solution is deviced to ensure that the requirement on replication is achieved, shown in the diagram below.
 
 ![](docs/node_structure.png)
 
-In the sharding configuration, each physical node owns 3 `mongod` instance, forming `shard1`, `shard2` ... `shard5` replica sets. This ensures that data going to each shard is stored in 3 physical machines. Config server has a replica factor of 3 as well, the `mongod` instances for config server replica set are randomly chosen across all physical nodes.
+In the sharding configuration, each physical node owns 3 `mongod` instance, forming `shard1`, `shard2` ... `shard5` replica sets on different ports. This ensures that data going to each shard is stored in 3 physical machines. Config server has a replica factor of 3 as well, the `mongod` instances for config server replica set are randomly chosen across all physical nodes.
 
 ![](docs/routing.png)
 
@@ -89,7 +96,21 @@ A set of output will be shown to signal the success or failure of node setup. Wh
 
 In case of error, please double check on the node IP addresses and user credentials. 
 
-Note that the setup can fail due to poor network conditions, please re-run the command in this case.  
+Note that the setup can fail due to poor network conditions, please re-run the command in this case.
+
+A sample of node configuration files based on IP addresses of nodes assigned to us is available in folder `node-settings` at project root. 
+
+`replicaX-1`,`replicaX-2` and `replicaX-3` refer to shard X.
+
+`portY.js` corresponds to init script for replica set running on port Y.
+ 
+Settings for config server and mongos are available in folder `configsvr` and `mongos` respectively. 
+
+Init script under fold `shard` initializes all shards and enable them on database.
+
+##### Manual Setup
+
+Manual setup is possible however not recommended. Please contact us if you would like to know more details about it.    
 
 ### Import Data To Project
 
