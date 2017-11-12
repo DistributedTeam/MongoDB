@@ -50,7 +50,7 @@ In the case of using single instance of `mongod` without replication, data is st
 
 ![](docs/naive_replica_implementation.png)
 
-However, as shown in the naive implementation above, using replica sets with 3 replications allows data in shard1, shard2 and shard3 replicate each other and have 2 additional copies each. Under this situation, there is no way data in shard4 and shard5 can have 3 copies of their data distributed across 3 different physical nodes, given the assumption that data should be evenly distributed.  
+However, as shown in the naive implementation above, when shard1, shard2 and shard3 form a replica set, they are no longer recognized by Mongo as 3 shards, but a single shard instead. Under this situation, there is no way data in shard4 and shard5 can have 3 copies of their data distributed across 3 different physical nodes, given the assumption that data should be evenly distributed.  
  
 A solution is deviced to ensure that the requirement on replication is achieved, shown in the diagram below.
 
