@@ -9,8 +9,8 @@ repositories {
     mavenCentral()
 }
 
-task dropCollection(type: JavaExec) {
-    main = "importtask.cs4224c.task.DropCollectionTask"
+task clearCollection(type: JavaExec) {
+    main = "importtask.cs4224c.task.ClearCollectionTask"
     classpath = sourceSets.main.runtimeClasspath
 }
 
@@ -24,11 +24,11 @@ task createIndex(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
-importData.mustRunAfter dropCollection
+importData.mustRunAfter clearCollection
 createIndex.mustRunAfter importData
 
 task all() {}
-all.dependsOn dropCollection, importData, createIndex
+all.dependsOn clearCollection, importData, createIndex
 
 test {
     testLogging.showStandardStreams = true

@@ -6,12 +6,12 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DropCollectionTask implements Runnable {
+public class ClearCollectionTask implements Runnable {
 
-    private final Logger logger = LoggerFactory.getLogger(DropCollectionTask.class);
+    private final Logger logger = LoggerFactory.getLogger(ClearCollectionTask.class);
 
     public static void main(String[] args) {
-        Runnable task = new DropCollectionTask();
+        Runnable task = new ClearCollectionTask();
         task.run();
     }
 

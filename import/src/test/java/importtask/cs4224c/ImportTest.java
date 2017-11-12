@@ -1,7 +1,7 @@
 package importtask.cs4224c;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import importtask.cs4224c.task.DropCollectionTask;
+import importtask.cs4224c.task.ClearCollectionTask;
 import importtask.cs4224c.task.ImportDataTask;
 import importtask.cs4224c.util.Collection;
 import importtask.cs4224c.util.CollectionPool;
@@ -33,7 +33,7 @@ public class ImportTest {
         logger.info("Begin to import data.");
 
         logger.info("Run drop collection task");
-        new DropCollectionTask().run();
+        new ClearCollectionTask().run();
 
         logger.info("Run Import Data Task");
         new ImportDataTask().run();
