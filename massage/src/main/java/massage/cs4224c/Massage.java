@@ -28,7 +28,7 @@ public class Massage {
                 new StockCollection()
         );
 
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
 
         for (AbstractConverter converter : abstractConverterArrayList) {
             logger.info("Submit Converter Task {}", converter.getClass().getSimpleName());
