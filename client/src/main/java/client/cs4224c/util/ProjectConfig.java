@@ -19,6 +19,7 @@ public class ProjectConfig {
     private static final String MONGODB_READ_PREF = "mongodb.read.pref";
     private static final String MONGODB_READ_CONCERN = "mongodb.read.concern";
     private static final String MONGODB_WRITE_CONCERN = "mongodb.write.concern";
+    private static final String MONGODB_WRITE_CONCERN_JOURNAL = "mongodb.write.concern.journal";
     private static final String TRANSACTION_FILE_FOLDER = "transaction.file.folder";
 
     private static ProjectConfig instance;
@@ -91,5 +92,9 @@ public class ProjectConfig {
 
     public String getMongodbWriteConcern() {
         return configuration.getString(MONGODB_WRITE_CONCERN);
+    }
+
+    public String getMongodbWriteConcernJournal() {
+        return configuration.getString(MONGODB_WRITE_CONCERN_JOURNAL);
     }
 }

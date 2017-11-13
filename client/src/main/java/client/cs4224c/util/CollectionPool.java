@@ -32,11 +32,12 @@ public class CollectionPool {
     private CollectionPool() {
         try {
             MongoClientURI connectionString = new MongoClientURI(
-                    String.format("mongodb://%s/?readPreference=%s&readConcernLevel=%s&w=%s",
+                    String.format("mongodb://%s/?readPreference=%s&readConcernLevel=%s&w=%s&journal=%s",
                             ProjectConfig.getInstance().getMongodbIp(),
                             ProjectConfig.getInstance().getMongodbReadPref(),
                             ProjectConfig.getInstance().getMongodbReadConcern(),
-                            ProjectConfig.getInstance().getMongodbWriteConcern())
+                            ProjectConfig.getInstance().getMongodbWriteConcern(),
+                            ProjectConfig.getInstance().getMongodbWriteConcernJournal())
             );
             MongoClient mongoClient = new MongoClient(connectionString);
             database = mongoClient.getDatabase(ProjectConfig.getInstance().getMongodbDb());
