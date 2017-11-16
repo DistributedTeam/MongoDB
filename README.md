@@ -109,9 +109,11 @@ Settings for config server and mongos are available in folder `configsvr` and `m
 
 Init script under fold `shard` initializes all shards and enable them on database.
 
+To ensure correctness of the configuration procedure, it is not suggested to alter any other parts of the configuration.
+
 ##### Manual Setup
 
-Manual setup is possible however not recommended. Please contact us if you would like to know more details about it.    
+Manual setup on the above mentioned procedure is possible however not recommended. Please contact us if you would like to know more details about it.    
 
 ### Import Data To Project
 
