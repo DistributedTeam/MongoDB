@@ -11,6 +11,8 @@ processManagement:
 net:
    bindIp: 192.168.48.233
    port: 27033
+   compression:
+      compressors: snappy
 systemLog:
    destination: file
    path: /temp/mongodb/log/log1/mongod.log

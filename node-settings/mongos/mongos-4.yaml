@@ -3,6 +3,8 @@ sharding:
 net:
     bindIp: 192.168.48.232
     port: 27017
+    compression:
+        compressors: snappy
 processManagement:
     fork: true
     pidFilePath: /temp/mongodb/main/mongos/main.pid
