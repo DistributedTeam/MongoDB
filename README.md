@@ -168,6 +168,8 @@ It is suggested that the upper range of loop variable `i` in file `stop-experime
 
 When experiment is done, log files will be stored in folder `experiement_log` at project root, including output from client, error logs and statistics such as number of transaction completed and throughput etc.
 
+Note that when a large number of clients is run (especially the experiment where 40 clients are required), one computing might not be sufficient to run all the clients. More than one computer might be required based on specifiction of the computer.
+
 ### Check Database State
 
 Add a working IP address from any of the 5 nodes to `mongodb.ip` in file `project.properties` under folder `client`. 
