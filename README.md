@@ -29,7 +29,7 @@ In the following sections, this script is referred to generally as `gradlew`.
 For Windows users, ensure that paths to Java 8 are correctly added to `System Properties` > `Advanced` > `Environment Variables` > `PATH`.
 
 ### Prepare and Denormalize Data
-Download zipped data files from [http://www.comp.nus.edu.sg/~cs4224/cs4224-project-files.zip](http://www.comp.nus.edu.sg/~cs4224/cs4224-project-files.zip).
+Download zipped data files from [http://www.comp.nus.edu.sg/~cs4224/4224-project-files.zip](http://www.comp.nus.edu.sg/~cs4224/4224-project-files.zip).
 
 Unzip the data files and put folders `data-files` and `xact-files` and the csv file inside under folder `project-files` at project root.
 
@@ -167,10 +167,10 @@ will increase the number of clients from 10 to 20.
 
 It is suggested that the upper range of loop variable `i` in file `stop-experiment` at project root is changed to the same value as in `start-experiment` to ensure consistency and success in premature termination of clients.
 
-**To run experiment:** Run `./start-experiment` at project. 
+**To run experiment:** Run `./start-experiment` at project root. 
 (For Windows users, execute the command using Git Bash.)
 
-**To stop experiment:** Run `./stop-experiment` at project. 
+**To stop experiment:** Run `./stop-experiment` at project root. 
 (For Windows users, execute the command using Git Bash.) 
 
 (You can check that the experiment is running by checking the log files where partial logs have been produced, for more details please refer to the section right below.)
