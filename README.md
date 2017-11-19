@@ -167,16 +167,18 @@ will increase the number of clients from 10 to 20.
 
 It is suggested that the upper range of loop variable `i` in file `stop-experiment` at project root is changed to the same value as in `start-experiment` to ensure consistency and success in premature termination of clients.
 
-**To run experiment:** Run `./start-experiment` at project. (For Windows users, you need to open Git Bash and execute the command above.)
+**To run experiment:** Run `./start-experiment` at project. 
+(For Windows users, execute the command using Git Bash.)
 
-**To stop experiment:** Run `./stop-experiment` at project. (For Windows users, you need to open Git Bash and execute the command above.) 
+**To stop experiment:** Run `./stop-experiment` at project. 
+(For Windows users, execute the command using Git Bash.) 
 
 (You can check that the experiment is running by checking the log files where partial logs have been produced, for more details please refer to the section right below.)
 
 **To view experiment logs:** Go to folder `experiment_log` at project root, where log files including output from client, error logs and statistics such as number of transaction completed and throughput etc. are positioned. 
 
 
-Note that when a large number of clients is run (especially the experiment where 40 clients are required), one computing might not be sufficient to run all the clients. More than one computer might be required based on specifiction of the computer.
+Note that when a large number of clients is run (especially the experiment where 40 clients are required), one computer might not be sufficient to run all the clients. More than one computer might be required based on capacity of the computer.
 
 ### Check Database State
 
