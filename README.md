@@ -178,7 +178,7 @@ It is suggested that the upper range of loop variable `i` in file `stop-experime
 **To view experiment logs:** Go to folder `experiment_log` at project root, where log files including output from client, error logs and statistics such as number of transaction completed and throughput etc. are positioned. 
 
 
-Note that when a large number of clients is run (especially the experiment where 40 clients are required), one computer might not be sufficient to run all the clients. More than one computer might be required based on capacity of the computer.
+Note that when a large number of clients is run (especially the experiment where 40 clients are required), one computer might not be sufficient to run all the clients. More than one computer might be required based on specifications of the computer.
 
 ### Check Database State
 
