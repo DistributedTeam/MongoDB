@@ -64,8 +64,8 @@ public class ImportDataTask implements Runnable {
             Process process = null;
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder()
-                        .command(cmd)
-                        .redirectOutput(ProcessBuilder.Redirect.INHERIT);
+                        .inheritIO()
+                        .command(cmd);
                 process = processBuilder.start();
 
                 process.waitFor();
