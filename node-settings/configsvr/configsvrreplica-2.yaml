@@ -3,6 +3,8 @@ sharding:
 net:
     bindIp: 192.168.48.231
     port: 27001
+    compression:
+        compressors: snappy
 processManagement:
     fork: true
     pidFilePath: /temp/mongodb/main/confinstance/main.pid
