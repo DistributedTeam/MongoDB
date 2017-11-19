@@ -76,7 +76,7 @@ Note that running the setup will bring down all the `mongod` and `mongos` instan
 server.ips = 192.168.48.229, 192.168.48.230, 192.168.48.231, 192.168.48.232, 192.168.48.233
 
 # Fill up the correct SSH user and password for the node
-ssh.user = cs4224c
+ssh.user = 
 ssh.password = 
 
 # Determine the location where mongodb is placed. It is by default that any previous content under this folder will be overwritten whenever the NodeSetup is run
