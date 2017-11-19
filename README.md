@@ -24,6 +24,7 @@ In the following sections, this script is referred to generally as `gradlew`.
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and above
 - RAM memory of 8GB and above (to massage the given data file successfully)
 - A stable connection to the Internet
+- Git Bash (for Windows users)
 
 For Windows users, ensure that paths to Java 8 are correctly added to `System Properties` > `Advanced` > `Environment Variables` > `PATH`.
 
@@ -166,7 +167,14 @@ will increase the number of clients from 10 to 20.
 
 It is suggested that the upper range of loop variable `i` in file `stop-experiment` at project root is changed to the same value as in `start-experiment` to ensure consistency and success in premature termination of clients.
 
-When experiment is done, log files will be stored in folder `experiement_log` at project root, including output from client, error logs and statistics such as number of transaction completed and throughput etc.
+**To run experiment:** Run `./start-experiment` at project. (For Windows users, you need to open Git Bash and execute the command above.)
+
+**To stop experiment:** Run `./stop-experiment` at project. (For Windows users, you need to open Git Bash and execute the command above.) 
+
+(You can check that the experiment is running by checking the log files where partial logs have been produced, for more details please refer to the section right below.)
+
+**To view experiment logs:** Go to folder `experiment_log` at project root, where log files including output from client, error logs and statistics such as number of transaction completed and throughput etc. are positioned. 
+
 
 Note that when a large number of clients is run (especially the experiment where 40 clients are required), one computing might not be sufficient to run all the clients. More than one computer might be required based on specifiction of the computer.
 
